@@ -4,7 +4,7 @@ defmodule Meat.Attack do
     durationMs = duration * 1000
 
     attacker = Meat.Attack.start(url)
-    { :ok, intervalRef} = :timer.apply_interval(intervalMs, :gen_server, :call, [attacker, :get])
+    { :ok, intervalRef} = :timer.apply_interval(intervalMs, :gen_server, :cast, [attacker, :get])
     { :ok, _} = :timer.apply_after(durationMs, Meat.Attack, :stop, [attacker, intervalRef])
 
     :timer.sleep(durationMs)
