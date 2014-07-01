@@ -6,7 +6,7 @@ defmodule Meat.Mixfile do
       app: :meat,
       escript_main_module: Meat.CLI,
       version: "0.0.1",
-      elixir: "~> 0.13.0",
+      elixir: "~> 0.14.2",
       deps: deps
     ]
   end
@@ -15,7 +15,7 @@ defmodule Meat.Mixfile do
   #
   # Type `mix help compile.app` for more information
   def application do
-    [ applications: [ :httpotion ],
+    [ applications: [ :inets ],
       mod: { Meat, [] } ]
   end
 
@@ -26,7 +26,7 @@ defmodule Meat.Mixfile do
   # Type `mix help deps` for more examples and options
   defp deps do
     [
-      { :httpotion, git: "https://github.com/myfreeweb/httpotion.git" }
+      # { :httpotion, git: "https://github.com/myfreeweb/httpotion.git" }
     ]
   end
 end

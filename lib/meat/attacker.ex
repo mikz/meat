@@ -1,19 +1,36 @@
 defmodule Meat.Attacker do
-  use GenServer.Behaviour
+  use GenServer
 
   def init(url) do
     { :ok, url }
   end
 
-  def handle_cast(:get, plan = [url | rest]) do
-    response = HTTPotion.get(url)
-    IO.puts(response.body)
-    case response do
-    %HTTPotion.Response{body: body, status_code: status, headers: _headers} when status in 200..299 ->
+  def handle_cast(method, plan = [url | rest]) do
+    status = request(method, url)
+    case status do
+      200..299 ->
       { :noreply, [url] }
-    %HTTPotion.Response{body: body, status_code: status, headers: _headers} ->
+      _ ->
       { :noreply, [url]}
     end
+  end
+
+  def request(method, url) do
+    url = httpc_url(url)
+
+    case  :httpc.request(method, { url, []}, [], [{ :sync, false }]) do
+      { :ok, {{_version, status, _reason}, _headers, body}} -> status
+      { :error, error } -> error
+      { :ok, pid } -> pid
+    end
+  end
+
+  def httpc_url(url) when is_list(url) do
+    url
+  end
+
+  def httpc_url(url) when is_bitstring(url) do
+    String.to_char_list(url)
   end
 
   def handle_call(:stop, _from, plan) do

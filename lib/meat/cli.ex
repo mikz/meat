@@ -37,8 +37,8 @@ defmodule Meat.CLI do
     { [ help: true ], _, _ }
       -> :help
 
-    { _, [ url, rate, duration ], _ } -> { url, binary_to_integer(rate), binary_to_integer(duration) }
-    { _, [ url, rate ], _ } -> { url, binary_to_integer(rate), @default_duration }
+    { _, [ url, rate, duration ], _ } -> { url, :erlang.binary_to_integer(rate), :erlang.binary_to_integer(duration) }
+    { _, [ url, rate ], _ } -> { url, :erlang.binary_to_integer(rate), @default_duration }
     { _, [ url ], _ } -> { url, @default_rate, @default_duration }
 
     _ -> :help
